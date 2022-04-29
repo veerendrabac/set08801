@@ -1,4 +1,54 @@
+// Java script for Quiz project 
+
 const quizData = [
+    {
+        question: "Which of the following property changes the width of left border?",
+        a: "border bottom width",
+        b: "border top width",
+        c: "border left width",
+        d: "border right width",
+        correct: "c",
+    },    
+    {
+        question: "Which of the following property is used to control the flow and formatting of text?",
+        a: "white space",
+        b: "text shadow",
+        c: "text decoration",
+        d: "text transform",
+        correct: "a",
+    },    
+    {
+        question: "Which of the following property is used to set the color of a text?",
+        a: "colour",
+        b: "direction",
+        c: "letter spacing",
+        d: "word spacing",
+        correct: "c",
+    },    
+    {
+        question: "Which of the following property is used to create a small-caps effect?",
+        a: "font family",
+        b: "font style",
+        c: "font variant",
+        d: "font weight",
+        correct: "a",
+    },    
+    {
+        question: "Where is the correct place to insert a JavaScript?",
+        a: "head section",
+        b: "body section",
+        c: "both head and body section",
+        d: "none of the above",
+        correct: "a",
+    },    
+    {
+        question: "Inside which HTML element do we put the JavaScript?",
+        a: "<script>",
+        b: "<js>",
+        c: "<scripting>",
+        d: "<javascript>",
+        correct: "a",
+    },
     {
         question: "Which language runs in a web browser?",
         a: "Java",
@@ -49,15 +99,7 @@ let currentQuiz = 0
 let score = 0
 
 loadQuiz()
-function timer() {
-    alert('you have exceeded 5 Seconds');
-  }
 
-  let myVar = setInterval(myTimer ,1000);
-function myTimer() {
-  const d = new Date();
-  document.getElementById("time").innerHTML = d.toLocaleTimeString();
-}
 
 function loadQuiz() {
 
@@ -100,10 +142,95 @@ submitBtn.addEventListener('click', () => {
            loadQuiz()
        } else {
            quiz.innerHTML = `
-           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <h2>You have answered ${score}/${quizData.length} questions correctly</h2>
+           
 
            <button onclick="location.reload()">Reload</button>
            `
        }
     }
 })
+// Audio API , playing a beep sound when a button click 
+var bleep = new Audio ();
+bleep.src = "bleep.mp3"
+
+//clock using canvas 
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 2;
+ctx.translate(radius, radius);
+radius = radius * 0.90
+setInterval(drawClock, 1000);
+
+function drawClock() {
+  drawFace(ctx, radius);
+  drawNumbers(ctx, radius);
+  drawTime(ctx, radius);
+}
+
+function drawFace(ctx, radius) {
+  var grad;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+  grad.addColorStop(0, '#333');
+  grad.addColorStop(0.5, 'white');
+  grad.addColorStop(1, '#333');
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = radius*0.1;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+  ctx.fillStyle = '#333';
+  ctx.fill();
+}
+
+function drawNumbers(ctx, radius) {
+  var ang;
+  var num;
+  ctx.font = radius*0.15 + "px arial";
+  ctx.textBaseline="middle";
+  ctx.textAlign="center";
+  for(num = 1; num < 13; num++){
+    ang = num * Math.PI / 6;
+    ctx.rotate(ang);
+    ctx.translate(0, -radius*0.85);
+    ctx.rotate(-ang);
+    ctx.fillText(num.toString(), 0, 0);
+    ctx.rotate(ang);
+    ctx.translate(0, radius*0.85);
+    ctx.rotate(-ang);
+  }
+}
+
+function drawTime(ctx, radius){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    //hour
+    hour=hour%12;
+    hour=(hour*Math.PI/6)+
+    (minute*Math.PI/(6*60))+
+    (second*Math.PI/(360*60));
+    drawHand(ctx, hour, radius*0.5, radius*0.07);
+    //minute
+    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+    drawHand(ctx, minute, radius*0.8, radius*0.07);
+    // second
+    second=(second*Math.PI/30);
+    drawHand(ctx, second, radius*0.9, radius*0.02);
+}
+
+function drawHand(ctx, pos, length, width) {
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.moveTo(0,0);
+    ctx.rotate(pos);
+    ctx.lineTo(0, -length);
+    ctx.stroke();
+    ctx.rotate(-pos);
+}

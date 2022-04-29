@@ -7,24 +7,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 
+
 </head>
 
 
 <body>
     <div class="header" id="header">
       <nav class="nav">
-        <a href="console.png" class="logo">
-          <img src="" alt="">
+        <a href="" class="logo">
+          <img src="console.png" alt="">
         </a>
         <ul class="nav-links">
-          <li class="nav-item"><a href="#">Home</a></li>
-          <li class="nav-item"><a href="#">Help</a></li>
+          <li class="nav-item"><a href="Home.html" onmousedown="bleep.play()">Home</a></li>          
+          <li class="nav-item"><a href="#" onmousedown="bleep.play()">Help</a></li>
           
         </ul>
       </nav>
-        
+      <canvas id="canvas" width="100" height="100"
+      style="background-color:03cae4">
+      </canvas>
        
-          <p id="time"></p>  
+         
       </div>
 <div class="quiz-container" id="quiz">
     <div class="quiz-header">
@@ -51,9 +54,10 @@
         </li>
 
       </ul>
+      
     </div>
 
-    <button id="submit"onclick="setTimeout(timer, 3000);">Submit</button>
+    <button id="submit"onclick=>Submit</button>
 
   </div>
   <script src="script.js"></script>
